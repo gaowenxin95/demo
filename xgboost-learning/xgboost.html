@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Xgboost | XGBoost-learing</title>
+  <meta name="description" content="Chapter 1 Xgboost | XGBoost-learing" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Xgboost | XGBoost-learing" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Xgboost | XGBoost-learing" />
+  
+  
+  
+
+<meta name="author" content="高文欣" />
+
+
+<meta name="date" content="2020-02-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>序言</a></li>
+<li class="chapter" data-level="1" data-path="xgboost.html"><a href="xgboost.html"><i class="fa fa-check"></i><b>1</b> Xgboost</a><ul>
+<li class="chapter" data-level="1.1" data-path="xgboost.html"><a href="xgboost.html#定义"><i class="fa fa-check"></i><b>1.1</b> 定义</a></li>
+<li class="chapter" data-level="1.2" data-path="xgboost.html"><a href="xgboost.html#基于残差的gradient"><i class="fa fa-check"></i><b>1.2</b> 基于残差的gradient</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="xgboost.html"><a href="xgboost.html#评价"><i class="fa fa-check"></i><b>1.2.1</b> 评价</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="xgboost.html"><a href="xgboost.html#boosting"><i class="fa fa-check"></i><b>1.3</b> boosting</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="xgboost.html"><a href="xgboost.html#公式"><i class="fa fa-check"></i><b>1.3.1</b> 公式</a></li>
+<li class="chapter" data-level="1.3.2" data-path="xgboost.html"><a href="xgboost.html#如何学习一个新模型"><i class="fa fa-check"></i><b>1.3.2</b> 如何学习一个新模型</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="xgboost.html"><a href="xgboost.html#gbdt的目标函数"><i class="fa fa-check"></i><b>1.4</b> GBDT的目标函数</a></li>
+<li class="chapter" data-level="1.5" data-path="xgboost.html"><a href="xgboost.html#如何使用决策树表示目标函数"><i class="fa fa-check"></i><b>1.5</b> 如何使用决策树表示目标函数</a></li>
+<li class="chapter" data-level="1.6" data-path="xgboost.html"><a href="xgboost.html#如何优化目标函数"><i class="fa fa-check"></i><b>1.6</b> 如何优化目标函数</a></li>
+<li class="chapter" data-level="1.7" data-path="xgboost.html"><a href="xgboost.html#总结"><i class="fa fa-check"></i><b>1.7</b> 总结</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">XGBoost-learing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="xgboost" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Xgboost</h1>
+<div id="定义" class="section level2">
+<h2><span class="header-section-number">1.1</span> 定义</h2>
+<p><img src="https://img2018.cnblogs.com/blog/1365906/202002/1365906-20200223090350989-706397032.png" />
+<a href="https://zhuanlan.zhihu.com/p/29765582">图片来源知乎</a>
+GBDT的含义就是用Gradient Boosting的策略训练出来的DT模型。模型的结果是一组回归分类树组合(CART Tree Ensemble)：<span class="math inline">\(T_1...T_K\)</span> 。其中 <span class="math inline">\(T_j\)</span> 学习的是之前 <span class="math inline">\(j-1\)</span>棵树预测结果的残差，这种思想就像准备考试前的复习，先做一遍习题册，然后把做错的题目挑出来，在做一次，然后把做错的题目挑出来在做一次，经过反复多轮训练，取得最好的成绩。<a href="https://zhuanlan.zhihu.com/p/30339807">知乎</a></p>
+<p>目前我的理解就是：先随机抽取一些样本进行训练，得到一个基分类器，然后再次训练拟合模型的残差。
+残差的定义：<span class="math inline">\(y_{真实}-y_{预测}\)</span>，前一个基分类器未能拟合的部分也就是残差，于是新分类器继续拟合，直到残差达到指定的阈值。</p>
+</div>
+<div id="基于残差的gradient" class="section level2">
+<h2><span class="header-section-number">1.2</span> 基于残差的gradient</h2>
+<p>gradient是梯度的意思，也可以说是一阶导数
+<strong>平方损失函数MSE：</strong><span class="math inline">\(\frac{1}{2} \sum_{0}^{n}\left(y_{i}-F\left(x_{i}\right)\right)^{2}\)</span>
+熟悉其他算法的原理应该知道，这个损失函数主要针对回归类型的问题，分类则是用熵值类的损失函数。具体到平方损失函数的式子，你可能已经发现它的一阶导其实就是残差的形式，所以基于残差的GBDT是一种特殊的GBDT模型，它的损失函数是平方损失函数，常用来处理回归类的问题。具体形式可以如下表示：
+<strong>损失函数：</strong><span class="math inline">\(L(y, F(x))=\frac{1}{2}(y-F(X))^{2}\)</span>
+因此求最小化的<span class="math inline">\(J=\frac{1}{2}(y-F(X))^{2}\)</span>
+哈哈此使可以求一阶导数了
+<strong>损失函数的一阶导数（梯度）：</strong><span class="math inline">\(\frac{\partial J}{\partial F\left(x_{i}\right)}=\frac{\partial \sum_{i} L\left(y_{i}, F\left(x_{i}\right)\right)}{\partial F\left(x_{i}\right)}=\frac{\partial L\left(y_{i}, F\left(x_{i}\right)\right)}{\partial F\left(x_{i}\right)}=F\left(x_{i}\right)-y_{i}\)</span>
+而参数就是负的梯度：<span class="math inline">\(y_{i}-F\left(x_{i}\right)=-\frac{\partial J}{\partial F\left(x_{i}\right)}\)</span></p>
+<div id="评价" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> 评价</h3>
+<p>基于残差的GBDT在解决回归问题上不算是一个好的选择，一个比较明显的缺点就是对异常值过于敏感。
+当存在一个异常值的时候，就会导致残差灰常之大。。自行理解</p>
+</div>
+</div>
+<div id="boosting" class="section level2">
+<h2><span class="header-section-number">1.3</span> boosting</h2>
+<p>gbdt模型可以认为是是由k个基模型组成的一个加法运算式</p>
+<p><span class="math inline">\(\hat{y}_{i}=\sum_{k=1}^{K} f_{k}\left(x_{i}\right), f_{k} \in F\)</span></p>
+<p>其中F是指所有基模型组成的函数空间
+那么一般化的损失函数是预测值 <span class="math inline">\(\hat{y}_{i}\)</span> 与 真实值<span class="math inline">\(y_{i}\)</span> 之间的关系，如我们前面的平方损失函数，那么对于n个样本来说，则可以写成
+<span class="math inline">\(L=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}\right)\)</span></p>
+<p>更一般的，我们知道一个好的模型，在偏差和方差上有一个较好的平衡，而算法的损失函数正是代表了模型的偏差面，最小化损失函数，就相当于最小化模型的偏差，但同时我们也需要兼顾模型的方差，所以目标函数还包括抑制模型复杂度的正则项，因此目标函数可以写成
+<span class="math inline">\(O b j=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}\right)+\sum_{k=1}^{K} \Omega\left(f_{k}\right)\)</span>
+其中 <span class="math inline">\(\Omega\)</span> 代表了基模型的复杂度，若基模型是树模型，则树的深度、叶子节点数等指标可以反应树的复杂程度。</p>
+<div id="公式" class="section level3">
+<h3><span class="header-section-number">1.3.1</span> 公式</h3>
+<p>对于Boosting来说，它采用的是前向优化算法，即从前往后，逐渐建立基模型来优化逼近目标函数，具体过程如下：
+<span class="math inline">\(\hat{y}_{i}^{0}=0\)</span>
+<span class="math inline">\(\hat{y}_{i}^{1}=f_{1}\left(x_{i}\right)=\hat{y}_{i}^{0}+f_{1}\left(x_{i}\right)\)</span>
+<span class="math inline">\(\hat{y}_{i}^{2}=f_{1}\left(x_{i}\right)+f_{2}\left(x_{i}\right)=\hat{y}_{i}^{1}+f_{2}\left(x_{i}\right)\)</span>
+<span class="math inline">\(\cdots\)</span>
+<span class="math inline">\(\hat{y}_{i}^{t}=\sum_{k=1}^{t} f_{k}\left(x_{i}\right)=\hat{y}_{i}^{t-1}+f_{t}\left(x_{i}\right)\)</span></p>
+</div>
+<div id="如何学习一个新模型" class="section level3">
+<h3><span class="header-section-number">1.3.2</span> 如何学习一个新模型</h3>
+<p>关键还是在于GBDT的目标函数上，即新模型的加入总是以优化目标函数为目的的。</p>
+<p>以第t步的模型拟合为例，在这一步，模型对第 <span class="math inline">\(i\)</span>个样本 <span class="math inline">\(x_i\)</span> 的预测为：
+<span class="math inline">\(\hat{y}_{i}^{t}=\hat{y}_{i}^{t-1}+f_{t}\left(x_{i}\right)\)</span></p>
+<p>其中 <span class="math inline">\(f_{t}\left(x_{i}\right)\)</span> 就是我们这次需要加入的新模型，即需要拟合的模型，此时，目标函数就可以写成：</p>
+<p><span class="math inline">\(\begin{aligned} O b j^{(t)} &amp;=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{t}\right)+\sum_{i=i}^{t} \Omega\left(f_{i}\right) \\ &amp;=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{t-1}+f_{t}\left(x_{i}\right)\right)+\Omega\left(f_{t}\right)+\text { constant } \end{aligned}\)</span> (1)
+因此当求出最优目标函数的时候也就相当于求出了<span class="math inline">\(f_{t}\left(x_{i}\right)\)</span></p>
+</div>
+</div>
+<div id="gbdt的目标函数" class="section level2">
+<h2><span class="header-section-number">1.4</span> GBDT的目标函数</h2>
+<p><strong>这部分也是推导XGBoost的过程</strong></p>
+<p>我们知道泰勒公式中，若<span class="math inline">\(\Delta x\)</span> 很小时，我们只保留二阶导是合理的（GBDT是一阶导，XGBoost是二阶导，我们以二阶导为例，一阶导可以自己去推，因为更简单）<strong>或许也可以说我们更希望将优化问题转化为一个凸优化问题，因此而引入二阶泰特展开式</strong>，即：
+<span class="math inline">\(f(x+\Delta x) \approx f(x)+f^{\prime}(x) \Delta x+\frac{1}{2} f^{\prime \prime}(x) \Delta x^{2}\)</span> (2)</p>
+<p>那么在等式（1）中，我们把 <span class="math inline">\(\hat{y}_{i}^{t-1}\)</span> 看成是等式（2）中的x， <span class="math inline">\(f_{t}\left(x_{i}\right)\)</span> 看成是 <span class="math inline">\(\Delta x\)</span> ，因此等式（1）可以写成：</p>
+<p><span class="math inline">\(O b j^{(t)}=\sum_{i=1}^{n}\left[l\left(y_{i}, \hat{y}_{i}^{t-1}\right)+g_{i} f_{t}\left(x_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(x_{i}\right)\right]+\Omega\left(f_{t}\right)+\)</span> constant (3)</p>
+<p>其中 <span class="math inline">\(g_{i}\)</span> 为损失函数的一阶导， <span class="math inline">\(h_i\)</span> 为损失函数的二阶导，注意这里的导是对 <span class="math inline">\(\hat{y}_{i}^{t-1}\)</span> 求导。我们以 平方损失函数为例<span class="math inline">\(\sum_{i=1}^{n}\left(y_{i}-\left(\hat{y}_{i}^{t-1}+f_{t}\left(x_{i}\right)\right)\right)^{2}\)</span> ，则分别给出<span class="math inline">\(g_i\)</span>,<span class="math inline">\(h_i\)</span></p>
+<p><span class="math inline">\(g_{i}=\partial_{\hat{y}^{t-1}}\left(\hat{y}^{t-1}-y_{i}\right)^{2}=2\left(\hat{y}^{t-1}-y_{i}\right), \quad h_{i}=\partial_{\hat{y}^{t-1}}^{2}\left(\hat{y}^{t-1}-y_{i}\right)^{2}=2\)</span></p>
+<p>由于在第t步 <span class="math inline">\(\hat{y}_{i}^{t-1}\)</span> 其实是一个已知的值，所以 <span class="math inline">\(l\left(y_{i}, \hat{y}_{i}^{t-1}\right)\)</span> 是一个常数，其对函数优化不会产生影响，因此，等式（3）可以写成：
+<span class="math inline">\(O b j^{(t)} \approx \sum_{i=1}^{n}\left[g_{i} f_{t}\left(x_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(x_{i}\right)\right]+\Omega\left(f_{t}\right)\)</span> (4)</p>
+<p>所以我么只要求出每一步损失函数的一阶和二阶导的值（由于前一步的 <span class="math inline">\(\hat{y}_{i}^{t-1}\)</span> 是已知的，所以这两个值就是常数）代入等式4，然后最优化目标函数，就可以得到每一步的 <span class="math inline">\(f(x)\)</span> ，最后根据加法模型得到一个整体模型</p>
+</div>
+<div id="如何使用决策树表示目标函数" class="section level2">
+<h2><span class="header-section-number">1.5</span> 如何使用决策树表示目标函数</h2>
+<p>假设我们boosting的基模型用决策树来实现，则一颗生成好的决策树，即结构确定，也就是说树的叶子结点其实是确定了的。假设这棵树的叶子结点有 <span class="math inline">\(T\)</span> 片叶子，而每片叶子对应的值 <span class="math inline">\(w \in R^{T}\)</span> 。熟悉决策树的同学应该清楚，每一片叶子结点中样本的预测值都会是一样的，在<strong>分类问题中是某一类</strong>，<strong>在回归问题中，是某一个值</strong>（在GBDT中都是回归树，即分类问题转化成对概率的回归了），那么肯定存在这样一个函数<span class="math inline">\(q:R^d-&gt;{1,2,...T}\)</span>,即将 <span class="math inline">\(f_{t}(x)\)</span> 中的每个样本映射到每一个叶子结点上，当然 <span class="math inline">\(f_{t}(x)\)</span>和 q 我们都是不知道的，但我们也不关心，这里只是说明一下决策树表达数据结构的方法是怎么样的，不理解也没有问题。</p>
+<p>下面来正式推导：</p>
+<p><span class="math inline">\(f_{t}(x)\)</span>可以转化为<span class="math inline">\(w_{q(x)}\)</span>,其中<span class="math inline">\(q(x)\)</span> 代表了每个样本在哪个叶子结点上,而 <span class="math inline">\(w_q\)</span> 则代表了哪个叶子结点取什么 <span class="math inline">\(w\)</span> 值，所以 <span class="math inline">\(w_{q(x)}\)</span> 就代表了每个样本的取值<span class="math inline">\(w\)</span> （即预测值.</p>
+<p>如果决策树的复杂度可以由正则项来定义 <span class="math inline">\(\Omega\left(f_{t}\right)=\gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2}\)</span> ，即决策树模型的复杂度由生成的树的叶子节点数量和叶子节点对应的值向量的L2范数决定。</p>
+<p>我们假设 <span class="math inline">\(I_{j}=\left\{i | q\left(x_{i}\right)=j\right\}\)</span> 为第 j 个叶子节点的样本集合，则等式4根据上面的一些变换可以写成：</p>
+<p><span class="math inline">\(\begin{aligned} O b j^{(t)} &amp; \approx \sum_{i=1}^{n}\left[g_{i} f_{t}\left(x_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(x_{i}\right)\right]+\Omega\left(f_{t}\right) \\ &amp;=\sum_{i=1}^{n}\left[g_{i} w_{q\left(x_{i}\right)}+\frac{1}{2} h_{i} w_{q\left(x_{i}\right)}^{2}\right]+\gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2} \\ &amp;=\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma T \end{aligned}\)</span> (5)</p>
+<p>即我们之前样本的集合，现在都改写成叶子结点的集合，由于一个叶子结点有多个样本存在，因此
+<img src="https://img2018.cnblogs.com/blog/1365906/202002/1365906-20200223132914561-1321075209.png" /></p>
+</div>
+<div id="如何优化目标函数" class="section level2">
+<h2><span class="header-section-number">1.6</span> 如何优化目标函数</h2>
+<p>那么对于单棵决策树，一种理想的优化状态就是枚举所有可能的树结构，因此过程如下：</p>
+<p>a、首先枚举所有可能的树结构，即 q；</p>
+<p>b、计算每种树结构下的目标函数值，即等式7的值；</p>
+<p>c、取目标函数最小（大）值为最佳的数结构，根据等式6求得每个叶子节点的 <span class="math inline">\(w\)</span> 取值，即样本的预测值。</p>
+<p>但上面的方法肯定是不可行的，因为树的结构千千万，所以一般用贪心策略来优化：</p>
+<p>a、从深度为0的树开始，对每个叶节点枚举所有的可用特征</p>
+<p>b、 针对每个特征，把属于该节点的训练样本根据该特征值升序排列，通过线性扫描的方式来决定该特征的最佳分裂点，并记录该特征的最大收益（采用最佳分裂点时的收益）</p>
+<p>c、 选择收益最大的特征作为分裂特征，用该特征的最佳分裂点作为分裂位置，把该节点生长出左右两个新的叶节点，并为每个新节点关联对应的样本集</p>
+<p>d、回到第1步，递归执行到满足特定条件为止</p>
+<p>那么如何计算上面的收益呢，很简单，仍然紧扣目标函数就可以了。假设我们在某一节点上二分裂成两个节点，分别是左（L）右（R），则分列前的目标函数是:<span class="math inline">\(-\frac{1}{2}\left[\frac{\left(G_{L}+G_{R}\right)^{2}}{H_{L}+H_{R}+\lambda}\right]+\gamma\)</span>,分裂后<span class="math inline">\(-\frac{1}{2}\left[\frac{G_{L}^{2}}{H_{L}+\lambda}+\frac{G_{R}^{2}}{H_{R}+\lambda}\right]+2 \gamma\)</span>，则对于目标函数来说，分裂后的收益是（这里假设是最小化目标函数，所以用分裂前-分裂后）
+Gain <span class="math inline">\(=\frac{1}{2}\left[\frac{G_{L}^{2}}{H_{L}+\lambda}+\frac{G_{R}^{2}}{H_{R}+\lambda}-\frac{\left(G_{L}+G_{R}\right)^{2}}{H_{L}+H_{R}+\lambda}\right]-\gamma\)</span></p>
+</div>
+<div id="总结" class="section level2">
+<h2><span class="header-section-number">1.7</span> 总结</h2>
+<p>a、算法在拟合的每一步都新生成一颗决策树；</p>
+<p>b、在拟合这棵树之前，需要计算损失函数在每个样本上的一阶导和二阶导，即 <span class="math inline">\(g_i\)</span> 和 <span class="math inline">\(h_i\)</span> ；</p>
+<p>c、通过上面的贪心策略生成一颗树，计算每个叶子结点的的 <span class="math inline">\(G_j\)</span>和 <span class="math inline">\(H_j\)</span> ，利用等式6计算预测值 <span class="math inline">\(w\)</span> ；</p>
+<p>d、把新生成的决策树 <span class="math inline">\(f_{t}(x)\)</span> 加入 <span class="math inline">\(\hat{y}_{i}^{t}=\hat{y}_{i}^{t-1}+\epsilon f_{t}\left(x_{i}\right)\)</span> ，其中<span class="math inline">\(\epsilon\)</span> 为学习率，主要为了抑制模型的过拟合。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/29765582">【参考知乎机器学习-一文理解GBDT的原理-20171001】</a>
+这篇文章的推导思路很清晰，建议多看几遍，虽然很多但是没有废话，慢一点可以理解的。</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["XGBoost-learning_gaowenxin.pdf", "XGBoost-learning_gaowenxin.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
